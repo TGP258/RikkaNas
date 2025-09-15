@@ -1,11 +1,3 @@
-<!--&lt;!&ndash; src/views/NextPage.vue &ndash;&gt;-->
-<!--<template>-->
-<!--  <div class="next-page">-->
-<!--    <header>-->
-<!--      <img alt="RikkaNas logo" class="logo" src="../assets/logo.svg" width="125" height="125" />-->
-<!--      <h1>欢迎使用 RikkaNas</h1>-->
-<!--      <p>请完善您的个人信息</p>-->
-<!--    </header>-->
 <template>
   <div class="container">
     <div class="header">
@@ -74,72 +66,6 @@
     </div>
   </div>
 </template>
-
-<!--<script setup>-->
-<!--import { ref } from 'vue'-->
-<!--import { useRouter } from 'vue-router'-->
-
-<!--const router = useRouter()-->
-<!--const activeTab = ref('login')-->
-
-<!--// 登录表单数据-->
-<!--const loginForm = ref({-->
-<!--  device: '',-->
-<!--  username: '',-->
-<!--  password: ''-->
-<!--})-->
-
-<!--// 注册表单数据-->
-<!--const registerForm = ref({-->
-<!--  device: '',-->
-<!--  username: '',-->
-<!--  account: '',-->
-<!--  password: '',-->
-<!--  confirmPassword: ''-->
-<!--})-->
-
-<!--// 切换标签页-->
-<!--const switchTab = (tabName) => {-->
-<!--  activeTab.value = tabName-->
-<!--}-->
-
-<!--// 处理登录-->
-<!--const handleLogin = () => {-->
-<!--  const { device, username, password } = loginForm.value-->
-
-<!--  if (!device || !username || !password) {-->
-<!--    alert('请填写所有必填字段')-->
-<!--    return-->
-<!--  }-->
-
-<!--  console.log('登录信息:', { device, username, password })-->
-<!--  alert('登录请求已发送！')-->
-
-<!--  // 跳转到主页面-->
-<!--  router.push('/')-->
-<!--}-->
-
-<!--// 处理注册-->
-<!--const handleRegister = () => {-->
-<!--  const { device, username, account, password, confirmPassword } = registerForm.value-->
-
-<!--  if (!device || !username || !account || !password || !confirmPassword) {-->
-<!--    alert('请填写所有必填字段')-->
-<!--    return-->
-<!--  }-->
-
-<!--  if (password !== confirmPassword) {-->
-<!--    alert('两次输入的密码不一致')-->
-<!--    return-->
-<!--  }-->
-
-<!--  console.log('注册信息:', { device, username, account, password })-->
-<!--  alert('注册成功！')-->
-
-<!--  // 切换到登录标签页-->
-<!--  switchTab('login')-->
-<!--}-->
-<!--</script>-->
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'

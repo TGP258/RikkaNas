@@ -7,7 +7,7 @@
         <h1>RikkaNas 控制面板</h1>
       </div>
       <div class="user-info">
-        <div class="user-avatar">{{ userInitial }}</div>
+<!--        <div class="user-avatar">{{ userInitial }}</div>-->
         <span>{{ userName }}</span>
         <button class="action-btn logout-btn" @click="handleLogout">登出</button>
       </div>
@@ -44,12 +44,28 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import axios from 'axios';
+import {ref, computed, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const userName = ref('管理员')
+const userName = ref(''); // 初始化为空字符串，而不是'管理员'
 
+const fetchAdminInfo = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/admin/info');
+    // 假设 API 返回的数据结构是 { name: '实际管理员用户名' }
+    userName.value = response.data.name;
+  } catch (error) {
+    console.error('获取管理员信息失败:', error);
+    // 可以在这里设置一个默认值或者处理错误
+    userName.value = 'Guest';
+  }
+  return userName.value;
+};
+onMounted(() => {
+  fetchAdminInfo();
+});
 // 用户头像首字母
 const userInitial = computed(() => userName.value.charAt(0))
 
@@ -68,7 +84,8 @@ const menuItems = ref([
   { id: 3, icon: '💾', title: '硬盘管理', route: '/storage', description: '查看硬盘健康状态和RAID配置' },
   { id: 4, icon: '🖥️', title: '设备信息', route: '/device-info', description: '查看硬件信息和系统状态' },
   { id: 5, icon: '📦', title: '备份与同步', route: '/backup', description: '设置自动备份任务和云同步' },
-  { id: 6, icon: '📱', title: '应用中心', route: '/apps', description: '安装和管理NAS应用程序' }
+  { id: 6, icon: '📱', title: '应用中心', route: '/apps', description: '安装和管理NAS应用程序' },
+  { id: 7, icon: '🐟', title: 'Docker管理', route: '/docker', description: '安装和管理Docker镜像' }
 ])
 
 // 快捷操作
@@ -105,5 +122,80 @@ const handleLogout = () => {
 </script>
 
 <style scoped>
-/* 添加与上面相同的CSS样式 */
+/* Flexbox平铺方案 */
+
+/* 头部居中 */
+
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+/* 功能块横向平铺 */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 2fr);
+  gap: 10px;
+}
+
+/* 响应式 */
+@media (max-width: 1200px) {
+  .dashboard { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 900px) {
+  .dashboard { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .dashboard { grid-template-columns: 1fr; }
+}
+/* 基础圆角样式 */
+.container {
+  padding-left: 30px;
+  border-radius: 15px;
+}
+
+.header {
+  text-align: center;
+  display: grid;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 30px;
+  border-radius: 15px;
+  border: 1px solid #e0e0e0;
+}
+
+.card {
+  border-radius: 15px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  padding-left: 30px !important;
+}
+
+.stat-card {
+  padding-left: 30px;
+  border-radius: 15px;
+  border: 1px solid #e0e0e0;
+}
+
+.action-btn {
+  border-radius: 15px;
+  border: 1px solid #40007a;
+}
+
+.user-avatar {
+  border-radius: 50%;
+  border: 1px solid #e0e0e0;
+}
+
+
+
+/* 悬停效果 */
+.card:hover {
+  border-color: #40007a;
+  transform: translateY(-3px);
+}
+
+
 </style>

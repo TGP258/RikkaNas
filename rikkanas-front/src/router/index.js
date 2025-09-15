@@ -19,7 +19,7 @@ const routes = [
         name: 'Desktop',
         component: Desktop
     },
-    // 可以继续添加更多路由...
+    // 可以继续添加更多路由
 ]
 
 const router = createRouter({

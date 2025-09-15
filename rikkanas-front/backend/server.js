@@ -3,6 +3,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
+const { Pool } = require('pg'); // 从 'pg' 库中导入 Pool
 
 const app = express();
 app.use(cors());
@@ -31,6 +32,7 @@ db.connect((err) => {
       id INT AUTO_INCREMENT PRIMARY KEY,
       device_name VARCHAR(255) NOT NULL,
       username VARCHAR(255) NOT NULL UNIQUE,
+      userrole INT NOT NULL,
       account VARCHAR(255) NOT NULL UNIQUE,
       password VARCHAR(255) NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -122,7 +124,32 @@ app.post('/api/login', (req, res) => {
         });
     });
 });
+app.get('/api/admin/info', async (req, res) => {
+    try {
+        // 使用 MySQL 的参数占位符 '?'
+        const queryText = "SELECT username FROM users WHERE userrole = 1";
 
+        // 使用 db.query 方法执行查询
+        db.query(queryText, [1], (err, results) => {
+            if (err) {
+                console.error('数据库查询失败:', err);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+
+            if (results.length > 0) {
+                // 如果找到了用户，则返回一个包含用户名的 JSON 对象
+                const adminName = results[0].username;
+                res.json({ name: adminName });
+            } else {
+                // 如果没有找到管理员用户
+                res.status(404).json({ error: 'Admin user not found' });
+            }
+        });
+    } catch (error) {
+        // 在异步函数中捕获同步错误
+        res.status(500).json({ error: '服务器错误' });
+    }
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log('服务器运行在端口' + PORT);

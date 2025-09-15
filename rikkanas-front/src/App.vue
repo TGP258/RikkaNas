@@ -2,7 +2,7 @@
 <script setup>
 
 import HelloWorld from '/src/components/HelloWorld.vue'
-import TheWelcome from '/src/components/TheWelcome.vue'
+// import TheWelcome from '/src/components/TheWelcome.vue'
 </script>
 
 <template>
@@ -10,7 +10,7 @@ import TheWelcome from '/src/components/TheWelcome.vue'
   <header>
   </header>
   <main>
-    <TheWelcome />
+<!--    <TheWelcome />-->
   </main>
 </template>
 
