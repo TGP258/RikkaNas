@@ -1,6 +1,6 @@
 <template>
   <div class="file-upload-container">
-    <h2>文件上传</h2>
+    <h2>文件上传功能</h2>
     <input type="file" ref="fileInput" @change="handleFileChange">
 
     <button @click="uploadFile" :disabled="!selectedFile">上传文件</button>
